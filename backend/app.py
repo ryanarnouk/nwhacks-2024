@@ -33,7 +33,7 @@ def handle_message(message):
     emit('message', message)
 
 @socketio.on('get_data')
-def send_data(test):
+def send_data(test = None):
     while loop:  # Replace this with a condition to stop sending data
         data = retrieve_from_arduino()
         print(data)

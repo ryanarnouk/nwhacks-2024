@@ -93,7 +93,7 @@ const MainData = () => {
                 <Col>
                     <Card>
                     <Text>Temperature</Text>
-                    <Metric>24</Metric>
+                    <Metric>{/*DATA FEEDS FROM HERE*/}</Metric>
                     </Card>
                 </Col>
                 <Card>
