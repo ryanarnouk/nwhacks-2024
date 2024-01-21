@@ -135,7 +135,7 @@ const MainData = (props) => {
               </Col>
               <Card>
                   <Metric className='w-full h-full'>
-                    <APIProvider apiKey={"AIzaSyAB5cNz-D_fzJbDJFXTOXYc5P5jF8oI2x4"}>
+                    <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
                       <Map
                         zoom={3}
                         center={{lat: props.data.latitude.value, lng: props.data.longitude.value}}
