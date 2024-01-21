@@ -73,7 +73,7 @@ const App = () => {
 
         {/* Main Assessment Dashboard (Right-side)*/}
         <div className='w-[25%] border-dashed'>
-          <MainAssessment/>
+          <MainAssessment data={data}/>
         </div>
       </div>      
     </div>

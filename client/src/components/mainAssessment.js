@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, Flex, Text, ProgressCircle } from "@tremor/react";
 
-const MainAssessment = () => {
+const MainAssessment = (props) => {
   return (
     <div className='m-3 h-full'>
         <div className="space-y-3 h-full">
@@ -9,7 +9,7 @@ const MainAssessment = () => {
                 <Text className='text-xl text-center text-white font-bold'>Air Quality Score</Text>
                 <div className="space-x-5 items-center">
                     <ProgressCircle value={100} size="xl">
-                        <span className="text-5xl text-white font-medium">10</span>
+                        <span className="text-5xl text-white font-medium">{props.data.iaq.value}</span>
                     </ProgressCircle>
                 </div>
 
