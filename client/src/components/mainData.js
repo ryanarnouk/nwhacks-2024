@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Grid, Col, Card, Text, Metric, LineChart, Button } from "@tremor/react";
 import {APIProvider, Map, Marker} from '@vis.gl/react-google-maps';
 import { Tooltip } from 'react-tooltip';
-// import { FaPerson } from "react-icons/fa6";
 import { FaDog, FaRunning } from "react-icons/fa";
 import { PiPlantFill } from "react-icons/pi";
 import { CgSleep } from "react-icons/cg";
@@ -19,6 +18,9 @@ const MainData = (props) => {
   const [graphVar, setGraphVar] = useState("Temperature");
   const [generatingFeedback, setGeneratingFeedback] = useState(false);
   const [chartData, setChartData] = useState([]);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
+  const [alt, setAlt] = useState(0);
 
   useEffect(() => {
     let newChartData;
@@ -60,6 +62,57 @@ const MainData = (props) => {
     setTimeout(() => {
       setChartData(newChartData);
     }, 1000)
+  })
+
+  // Get the user's location from the browser
+  const getBrowserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(updatePosition, errorPositionFetch);
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }
+
+  const updatePosition = async (position) => {
+    let long = position.coords.longitude;
+    let lat = position.coords.latitude;
+
+    setLat(lat);
+    setLng(long);
+
+    try {
+      const response = await fetch(`http://127.0.0.1:105/generate_feedback/latitude=${lat}&longitude=${long}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`, {
+        method: 'GET',
+        headers: {
+          // 'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to fetch elevation: ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+  
+      // Assuming the API response structure has results and elevation property
+      // const elevation = data.results[0].elevation;
+      console.log(data);
+  
+      // setAltitude(elevation);
+    } catch (error) {
+      console.error('Error fetching elevation:', error.message);
+    }
+  }
+
+  const errorPositionFetch = (error) => {
+    console.error('Error getting geolocation:', error.message);
+  };
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      getBrowserLocation();
+    }, 6000)
   })
 
   // Make a POST request to the API to generate GPT feedback
@@ -135,15 +188,15 @@ const MainData = (props) => {
               </Col>
               <Card>
                   <Metric className='w-full h-full'>
-                    <APIProvider apiKey={"AIzaSyAB5cNz-D_fzJbDJFXTOXYc5P5jF8oI2x4"}>
+                    <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
                       <Map
-                        zoom={3}
-                        center={{lat: props.data.latitude.value, lng: props.data.longitude.value}}
+                        zoom={15}
+                        center={{lat: lat, lng: lng}}
                         gestureHandling={'greedy'}
                         disableDefaultUI={true}
                         style={{ borderRadius: '0.2em' }}
                       >
-                        <Marker position={{lat: props.data.latitude.value, lng: props.data.longitude.value}} />
+                        <Marker position={{lat: lat, lng: lng}} />
                       </Map>
                     </APIProvider>
                   </Metric>

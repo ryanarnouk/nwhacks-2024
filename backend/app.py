@@ -5,6 +5,7 @@ from flask_socketio import SocketIO, emit
 from flask_cors import CORS, cross_origin
 from openai import OpenAI
 from dotenv import load_dotenv
+import requests
 import os
 
 load_dotenv()  # take environment variables from .env.
@@ -97,6 +98,34 @@ def generate_feedback():
 
     except Exception as e:
         return jsonify({"error": f"Error communicating with OpenAI API: {str(e)}"}), 500
+
+
+@app.route('/get_altitude', methods=['GET'])
+def get_altitude():
+    try:
+        # Retrieve latitude and longitude from the request
+        lat = request.args.get("latitude")
+        lon = request.args.get("longitude")
+        GOOGLE_MAPS_API_KEY = request.args.get("key")
+
+        if not lat or not lon:
+            return jsonify({"error": "Latitude and longitude are required"}), 400
+
+        # Make a request to the Google Maps Elevation API
+        response = requests.get(f'https://maps.googleapis.com/maps/api/elevation/json?locations={lat},{lon}&key={GOOGLE_MAPS_API_KEY}')
+        
+        if response.status_code != 200:
+            return jsonify({"error": f"Failed to fetch elevation: {response.text}"}), response.status_code
+
+        data = response.json()
+        
+        # Assuming the API response structure has results and elevation property
+        elevation = data['results'][0]['elevation']
+        
+        return jsonify({"altitude": altitude})
+
+    except Exception as e:
+        return jsonify({"error": f"Error fetching elevation: {str(e)}"}), 500
 
 
 if __name__ == '__main__':
