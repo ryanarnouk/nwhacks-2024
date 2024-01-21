@@ -2,10 +2,16 @@ import { useState } from 'react';
 import { Grid, Col, Card, Text, Metric, LineChart, Button } from "@tremor/react";
 import {APIProvider, Map, Marker} from '@vis.gl/react-google-maps';
 import { Tooltip } from 'react-tooltip';
+// import { FaPerson } from "react-icons/fa6";
+import { FaDog, FaRunning } from "react-icons/fa";
+import { PiPlantFill } from "react-icons/pi";
+import { CgSleep } from "react-icons/cg";
+import { MdAir } from "react-icons/md";
 
 
 const MainData = (props) => {
   const [graphVar, setGraphVar] = useState("Temperature");
+  // console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
 
   const testData = [
       {
@@ -69,6 +75,38 @@ const MainData = (props) => {
         "2023": null,
       },
   ];
+
+  // Make a POST request to the API to generate GPT feedback
+  const generateFeedback = async (impactType) => {
+    try {
+
+      // Build the form data to send to the API
+      const formData = new FormData();
+      
+      formData.append("impactType", impactType);
+      formData.append("temperature", props.data.temperature.value);
+      formData.append("humidity", props.data.humidity.value);
+      formData.append("airPressure", props.data.pressure.value);
+      formData.append("co2", props.data.co2_equivalent.value);
+      formData.append("breathVOC", props.data.breath_voc_equivalent.value);
+      formData.append("iaq", props.data.iaq.value);
+
+      // Send request to API endpoint
+      // TODO: Replace API endpoint
+      const response = await fetch('http://127.0.0.1:105/generate_feedback', {
+        method: 'POST',  
+        headers: {
+          // Auth?
+        },
+        body: formData,
+      });
+      
+      const data = await response.json();
+      console.log(data);  // Handle the API response data as needed
+    } catch (error) {
+      console.error('Error fetching impact data:', error);
+    }
+  };
 
 
   return (
@@ -150,25 +188,27 @@ const MainData = (props) => {
                   <Metric>{props.data.iaq_accuracy.value}</Metric>
               </Card>
               <Col numColSpan={1} numColSpanLg={3}>
-                <Card className="w-full">
-                  <div className=''>
-                    <div className='flex flex-row items-center justify-between'>
-                      <h1 className='text-lg font-bold dark:text-dark-tremor-content-emphasis'>
-                        Context
-                      </h1>
-                      <div className='flex flex-row'>
-                      <Button data-tooltip-id="help-tooltip" data-tooltip-content="Hello world!" 
-                            classNamesize="xs" style={{ borderRadius: '2em' }}><h1 className='text-white'>?</h1></Button>
-                            <Button data-tooltip-id="help-tooltip" data-tooltip-content="Hello world!" 
-                            classNamesize="xs" style={{ borderRadius: '2em' }}><h1 className='text-white'>?</h1></Button>
-                            <Button data-tooltip-id="help-tooltip" data-tooltip-content="Hello world!" 
-                            classNamesize="xs" style={{ borderRadius: '2em' }}><h1 className='text-white'>?</h1></Button>
-
-                      </div>
-                      <Button classNamesize="xs"><h1 className='text-white'>Submit</h1></Button>
-                    </div>
+              <Card className="w-full">
+                <div className='flex flex-row items-center justify-around'>
+                  <div className='flex flex-row items-center gap-4'> {/* Adjust the gap value based on your preference */}
+                    <Button classNamesize="xs" onClick={() => (generateFeedback("plant"))}>
+                      <h1 className='text-white flex items-center gap-2'><PiPlantFill size={20}/> Plant Impact</h1>
+                    </Button>
+                    <Button classNamesize="xs">
+                      <h1 className='text-white flex items-center gap-2'><FaDog size={20}/> Animal Impact</h1>
+                    </Button>
+                    <Button classNamesize="xs">
+                      <h1 className='text-white flex items-center gap-2'><CgSleep size={20}/> Sleep Impact</h1>
+                    </Button>
+                    <Button classNamesize="xs">
+                      <h1 className='text-white flex items-center gap-2'><FaRunning size={20}/> Exercise Impact</h1>
+                    </Button>
+                    <Button classNamesize="xs">
+                      <h1 className='text-white flex items-center gap-2'><MdAir size={20}/> Breathing Impact</h1>
+                    </Button>
                   </div>
-                </Card>
+                </div>
+              </Card>
               </Col>
           </Grid>
           <Tooltip id="help-tooltip" />
