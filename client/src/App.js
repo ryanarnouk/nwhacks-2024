@@ -58,7 +58,7 @@ const App = () => {
 
   
   return (
-    <div className="bg-gray-800 text-white min-h-screen">
+    <div className="bg-gray-200 dark:bg-gray-800 min-h-screen">
       
       {/* Top Navbar */}
       <Navbar/>
