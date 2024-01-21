@@ -10,7 +10,7 @@ const Navbar = () => {
         src='/breathe_logo_no_background.png'  
         alt='Breathe Logo'
         className='my-2'
-        style={{ width: '80px', height: 'auto' }}  
+        style={{ width: '70px', height: 'auto', margin: 0 }}  
       />
     </div>
   );
