@@ -7,10 +7,8 @@ import { FaDog, FaRunning } from "react-icons/fa";
 import { PiPlantFill } from "react-icons/pi";
 import { CgSleep } from "react-icons/cg";
 import { MdAir } from "react-icons/md";
-import BufferStream from '../helpers/BufferStream';
 
 const MainData = (props) => {
-  const maxSize = 100;
   const graphLegend = {
     "Temperature": "Temperature (°C)",
     "CO2": "Carbon Dioxide in Air (PPM)",
@@ -20,34 +18,26 @@ const MainData = (props) => {
 
   const [graphVar, setGraphVar] = useState("Temperature");
   const [generatingFeedback, setGeneratingFeedback] = useState(false);
-  const [forceUpdate, setForceUpdate] = useState(false); // Used to force a re-render of the component
-  const [bufferStream, setBufferStream] = useState(new BufferStream(maxSize));
-
-  // let times = ["12:00", "12:05", "12:10", "12:15", "12:20", "12:25", "12:30", "12:35", "12:45", "12:50"]
-  // for (let i = 0; i < 100; i++) {
-  //   bufferStream.add(
-  //     {
-  //       time: times[i % 10],
-  //       "temperature": i,
-  //     });
-  // }
-
-  // const testData = bufferStream.getBuffer();
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    if (props.data.temperature && props.data.temperature.value) {
-      console.log("HEREE", new Date().toLocaleTimeString())
-      bufferStream.add({
-        time: new Date().toLocaleTimeString().split,
-        "temperature": props.data.temperature.value,
-      });
 
-      setForceUpdate(!forceUpdate);
+    const newValue = props.data.temperature;
+    const newChartData = [...chartData, {
+      "time": new Date().toLocaleTimeString().split,
+      "temperature": newValue.value
+    }];
+
+    if (newChartData.length > 10) {
+      newChartData.shift();
     }
-  }, [props.data]);
-  
 
-  
+    console.log(newChartData);
+    setTimeout(() => {
+      setChartData(newChartData);
+    }, 1000)
+  })
+
   // Make a POST request to the API to generate GPT feedback
   const generateFeedback = async (impactType) => {
     try {
@@ -109,7 +99,7 @@ const MainData = (props) => {
                       {/* <Metric>Graph</Metric> */}
                       <LineChart
                           className="h-72 mt-4"
-                          data={bufferStream.getBuffer()}
+                          data={chartData}
                           index="time"
                           categories={["temperature"]}
                           colors={["blue"]}
