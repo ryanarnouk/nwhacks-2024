@@ -21,13 +21,37 @@ const MainData = (props) => {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
+    let newChartData;
 
-    const newValue = props.data.temperature;
-    const newChartData = [...chartData, {
-      "time": new Date().toLocaleTimeString().split,
-      "temperature": newValue.value
-    }];
+    if (graphVar === "Temperature") {
+      const newValue = props.data.temperature;
+      newChartData = [...chartData, {
+        "time": new Date().toLocaleTimeString().split,
+        "temperature": newValue.value
+      }]; 
+    } else if (graphVar === "CO2") {
+      const newValue = props.data.co2_equivalent;
+      newChartData = [...chartData, {
+        "time": new Date().toLocaleTimeString().split,
+        "co2": newValue.value
+      }]; 
+    } else if (graphVar === "Humidity") {
+      const newValue = props.data.humidity;
+      newChartData = [...chartData, {
+        "time": new Date().toLocaleTimeString().split,
+        "humidity": newValue.value
+      }]; 
+    } else if (graphVar === "IAQ") {
+      const newValue = props.data.iaq;
+      newChartData = [...chartData, {
+        "time": new Date().toLocaleTimeString().split,
+        "iaq": newValue.value
+      }]; 
+    } else {
+      console.log("Error with the graph. Check that the graph variable is correctly set.")
+    }
 
+    // Pop if we exceed the max buffer length (shift = pop in JavaScript)
     if (newChartData.length > 10) {
       newChartData.shift();
     }
@@ -101,7 +125,7 @@ const MainData = (props) => {
                           className="h-72 mt-4"
                           data={chartData}
                           index="time"
-                          categories={["temperature"]}
+                          categories={[graphVar.toLowerCase()]}
                           colors={["blue"]}
                           yAxisWidth={30}
                           // onValueChange={(v) => setValue(v)}
