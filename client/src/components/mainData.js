@@ -1,5 +1,13 @@
 import React from 'react'
 import { Grid, Col, Card, Text, Metric, LineChart } from "@tremor/react";
+import {APIProvider, Map, Marker} from '@vis.gl/react-google-maps';
+// import ControlPanel from './control-panel';
+
+// const API_KEY =
+//   globalThis.GOOGLE_MAPS_API_KEY ?? (process.env.GOOGLE_MAPS_API_KEY);
+
+// const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/style.json';
+// console.log(process.env.GOOGLE_MAPS_API_KEY);
 
 const MainData = () => {
     const testData = [
@@ -87,8 +95,18 @@ const MainData = () => {
                     </Card>
                 </Col>
                 <Card>
-                    <Text>Map</Text>
-                    <Metric>Map</Metric>
+                    <Metric className='w-full h-full'>
+                      <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
+                        <Map
+                          zoom={3}
+                          center={{lat: 22.54992, lng: 0}}
+                          gestureHandling={'greedy'}
+                          disableDefaultUI={true}
+                        >
+                          <Marker position={{lat: 22.54992, lng: 0}} />
+                        </Map>
+                      </APIProvider>
+                    </Metric>
                 </Card>
                 <Col>
                     <Card>

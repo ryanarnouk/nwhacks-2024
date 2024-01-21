@@ -16,8 +16,11 @@ const MainAssessment = () => {
                 <div className='flex flex-col gap-4 m-2 justify-left'>
                     <h1 className="text-3xl text-white font-bold">Feedback</h1>
                     <ul className="list-disc pl-4">
-                        <li className="text-lg text-white">Good</li>
-                        <li className="text-lg text-white">Bad</li>
+                        <li className="text-lg text-white">Point 1</li>
+                        <li className="text-lg text-white">Point 2</li>
+                        <li className="text-lg text-white">Point 3</li>
+                        <li className="text-lg text-white">Point 4</li>
+                        <li className="text-lg text-white">Point 5</li>
                     </ul>
                 </div>
             </Card>
