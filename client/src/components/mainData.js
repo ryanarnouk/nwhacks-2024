@@ -22,6 +22,51 @@ const MainData = (props) => {
   const [lng, setLng] = useState(0);
   const [alt, setAlt] = useState(0);
 
+  // Get the user's location from the browser
+  const getBrowserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(updatePosition, errorPositionFetch);
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }
+
+  const updatePosition = async (position) => {
+    let long = position.coords.longitude;
+    let lat = position.coords.latitude;
+
+    setLat(lat);
+    setLng(long);
+
+    try {
+      const response = await fetch(`http://127.0.0.1:105/get_altitude?latitude=${lat}&longitude=${long}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`, {
+        method: 'GET',
+        headers: {
+          // 'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to fetch elevation: ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+  
+      // Assuming the API response structure has results and elevation property
+      // const elevation = data.results[0].elevation;
+      console.log(data);
+      setAlt(data.altitude);
+  
+      // setAltitude(elevation);
+    } catch (error) {
+      console.error('Error fetching elevation:', error.message);
+    }
+  }
+
+  const errorPositionFetch = (error) => {
+    console.error('Error getting geolocation:', error.message);
+  };  
+
   useEffect(() => {
     let newChartData;
 
@@ -58,61 +103,14 @@ const MainData = (props) => {
       newChartData.shift();
     }
 
+    if (alt === 0) {
+      getBrowserLocation();
+    }
+
     console.log(newChartData);
     setTimeout(() => {
       setChartData(newChartData);
     }, 1000)
-  })
-
-  // Get the user's location from the browser
-  const getBrowserLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(updatePosition, errorPositionFetch);
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
-  }
-
-  const updatePosition = async (position) => {
-    let long = position.coords.longitude;
-    let lat = position.coords.latitude;
-
-    setLat(lat);
-    setLng(long);
-
-    try {
-      const response = await fetch(`http://127.0.0.1:105/get_altitude?latitude=${lat}&longitude=${long}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`, {
-        method: 'GET',
-        headers: {
-          // 'Content-Type': 'application/json',
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Failed to fetch elevation: ${response.statusText}`);
-      }
-  
-      const data = await response.json();
-  
-      // Assuming the API response structure has results and elevation property
-      // const elevation = data.results[0].elevation;
-      console.log(data);
-  
-      // setAltitude(elevation);
-    } catch (error) {
-      console.error('Error fetching elevation:', error.message);
-    }
-  }
-
-  const errorPositionFetch = (error) => {
-    console.error('Error getting geolocation:', error.message);
-  };
-
-
-  useEffect(() => {
-    setTimeout(() => {
-      getBrowserLocation();
-    }, 6000)
   })
 
   // Make a POST request to the API to generate GPT feedback
@@ -227,7 +225,7 @@ const MainData = (props) => {
               </Card>
               <Card>
                   <Text>Altitude</Text>
-                  <Metric>{props.data.altitude.value + "m"}</Metric>
+                  <Metric>{Math.round(alt) + "m"}</Metric>
               </Card>
               <Col numColSpan={1} numColSpanLg={3}>
               <Card className="w-full">
