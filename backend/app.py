@@ -65,21 +65,29 @@ def generate_feedback():
 
     # Make a request to the OpenAI API to generate a response
     try:
+        
+        model = "gpt-4-1106-preview"
+        model_context = f"""You are a helpful assistant designed to give concise health advice/feedback for {impact_type} impact given values for temperature (in degrees Celsius),
+                                     humidity, air pressure (in hPa), CO2 (in PPM), breath VOC (in PPM), and indoor air quality (in PPM). You are concerned about the health impacts of {impact_type}
+                                     in the setting of being present with these variables. Be concise and specific in your feedback."""
+                                     
+        user_content = f"""What is the impact on {impact_type}, if it is in a room/area where the temperature is {temperature} C, the humidity is {humidity}%, 
+                                    the air pressure is {air_pressure} hPa, the CO2 is {co2} PPM, the breath VOC is {breath_voc} PPM, and the indoor air quality is {indoor_air_quality}?
+                                    Tell me about potential harms for {impact_type} in the presence of these specific values and how to mitigate them. 
+                                    If there are no harms, tell me that there are no harms. Be concise and specific in your feedback."""
+        
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo-1106",
+            model="gpt-4-1106-preview",
             messages=[
-                    {
-                        "role": "system", 
-                        "content": f"""You are a helpful assistant designed to give health advice/feedback for {impact_type} impact given values for temperature (in degrees Celsius),
-                                     humidity, air pressure (in hPa), CO2 (in PPM), breath VOC (in PPM), and indoor air quality (in PPM)."""
-                    },
-                    {
-                        "role": "user", 
-                        "content": """What is the impact on {impact_type}, given the temperature is {temperature}, the humidity is {humidity}, 
-                                    the air pressure is {air_pressure}, the CO2 is {co2}, the breath VOC is {breath_voc}, and the indoor air quality is {indoor_air_quality}?
-                                    Tell me about potential harms and how to mitigate them. If there are no harms, tell me that there are no harms."""
-                    }
-                ]
+                {
+                    "role": "system", 
+                    "content": model_context
+                },
+                {
+                    "role": "user", 
+                    "content": user_content
+                }
+            ]
         )
         
         generated_response = response.choices[0].message.content
