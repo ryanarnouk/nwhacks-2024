@@ -9,6 +9,7 @@ async-lru @ file:///home/conda/feedstock_root/build_artifacts/async-lru_16905630
 attrs @ file:///home/conda/feedstock_root/build_artifacts/attrs_1704011227531/work
 Babel @ file:///home/conda/feedstock_root/build_artifacts/babel_1702422572539/work
 beautifulsoup4 @ file:///home/conda/feedstock_root/build_artifacts/beautifulsoup4_1680888073205/work
+bidict==0.22.1
 bleach @ file:///home/conda/feedstock_root/build_artifacts/bleach_1696630167146/work
 blinker==1.7.0
 boltons @ file:///Users/cbousseau/work/recipes/ci_py311/boltons_1677965141748/work
@@ -34,8 +35,11 @@ exceptiongroup @ file:///home/conda/feedstock_root/build_artifacts/exceptiongrou
 executing @ file:///home/conda/feedstock_root/build_artifacts/executing_1698579936712/work
 fastjsonschema @ file:///home/conda/feedstock_root/build_artifacts/python-fastjsonschema_1703780968325/work/dist
 Flask==3.0.1
+Flask-Cors==4.0.0
+Flask-SocketIO==5.3.6
 fqdn @ file:///home/conda/feedstock_root/build_artifacts/fqdn_1638810296540/work/dist
 future==0.18.3
+h11==0.14.0
 idna @ file:///Users/cbousseau/work/recipes/ci_py311/idna_1677906072337/work
 importlib-metadata @ file:///home/conda/feedstock_root/build_artifacts/importlib-metadata_1703269254275/work
 importlib-resources @ file:///home/conda/feedstock_root/build_artifacts/importlib_resources_1699364556997/work
@@ -98,7 +102,9 @@ pyserial==3.5
 PySocks @ file:///Users/cbousseau/work/recipes/ci_py311/pysocks_1677906386870/work
 python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1626286286081/work
 python-dotenv==1.0.0
+python-engineio==4.8.2
 python-json-logger @ file:///home/conda/feedstock_root/build_artifacts/python-json-logger_1677079630776/work
+python-socketio==5.11.0
 pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1693930252784/work
 PyYAML @ file:///Users/runner/miniforge3/conda-bld/pyyaml_1695373486380/work
 pyzmq @ file:///Users/runner/miniforge3/conda-bld/pyzmq_1701783271620/work
@@ -109,6 +115,7 @@ rfc3986-validator @ file:///home/conda/feedstock_root/build_artifacts/rfc3986-va
 rpds-py @ file:///Users/runner/miniforge3/conda-bld/rpds-py_1703822735100/work
 ruamel.yaml @ file:///Users/cbousseau/work/recipes/ci_py311/ruamel.yaml_1677934845850/work
 Send2Trash @ file:///Users/runner/miniforge3/conda-bld/send2trash_1682601407921/work
+simple-websocket==1.0.0
 six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
 sniffio @ file:///home/conda/feedstock_root/build_artifacts/sniffio_1662051266223/work
 soupsieve @ file:///home/conda/feedstock_root/build_artifacts/soupsieve_1693929250441/work
@@ -131,5 +138,6 @@ webcolors @ file:///home/conda/feedstock_root/build_artifacts/webcolors_16799007
 webencodings @ file:///home/conda/feedstock_root/build_artifacts/webencodings_1694681268211/work
 websocket-client @ file:///home/conda/feedstock_root/build_artifacts/websocket-client_1701630677416/work
 Werkzeug==3.0.1
+wsproto==1.2.0
 zipp @ file:///home/conda/feedstock_root/build_artifacts/zipp_1695255097490/work
 zstandard @ file:///Users/cbousseau/work/recipes/ci_py311_2/zstandard_1678996192313/work
