@@ -92,7 +92,6 @@ def generate_feedback():
         )
         
         generated_response = response.choices[0].message.content
-        print(generated_response)
         
         return jsonify({"response": generated_response})
 
@@ -122,7 +121,7 @@ def get_altitude():
         # Assuming the API response structure has results and elevation property
         elevation = data['results'][0]['elevation']
         
-        return jsonify({"altitude": altitude})
+        return jsonify({"altitude": elevation})
 
     except Exception as e:
         return jsonify({"error": f"Error fetching elevation: {str(e)}"}), 500

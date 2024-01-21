@@ -81,7 +81,7 @@ const MainData = (props) => {
     setLng(long);
 
     try {
-      const response = await fetch(`http://127.0.0.1:105/generate_feedback/latitude=${lat}&longitude=${long}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`, {
+      const response = await fetch(`http://127.0.0.1:105/get_altitude?latitude=${lat}&longitude=${long}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`, {
         method: 'GET',
         headers: {
           // 'Content-Type': 'application/json',
