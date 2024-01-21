@@ -11,7 +11,12 @@ import { MdAir } from "react-icons/md";
 
 const MainData = (props) => {
   const [graphVar, setGraphVar] = useState("Temperature");
-  // console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
+  const graphLegend = {
+    "Temperature": "Temperature (°C)",
+    "CO2": "Carbon Dioxide in Air (PPM)",
+    "Humidity": "Humidity (%)",
+    "IAQ": "Indoor Air Quality (PPM)",
+  }
 
   const testData = [
       {
@@ -103,6 +108,7 @@ const MainData = (props) => {
       
       const data = await response.json();
       console.log(data);  // Handle the API response data as needed
+      props.setFeedback(data.response);
     } catch (error) {
       console.error('Error fetching impact data:', error);
     }
@@ -128,7 +134,7 @@ const MainData = (props) => {
                           </select>
                         </div>
                         <h1 className='w-full text-center font-bold dark:text-dark-tremor-content-emphasis font-xl'>{graphVar}</h1>
-                        <Button data-tooltip-id="help-tooltip" data-tooltip-content="Hello world!" 
+                        <Button data-tooltip-id="help-tooltip" data-tooltip-content={graphLegend[graphVar]}
                             classNamesize="xs" style={{ borderRadius: '2em' }}><h1 className='text-white'>?</h1></Button>
                       </div>
                       {/* <Metric>Graph</Metric> */}
@@ -149,12 +155,12 @@ const MainData = (props) => {
                     <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
                       <Map
                         zoom={3}
-                        center={{lat: 22.54992, lng: 0}}
+                        center={{lat: props.data.latitude.value, lng: props.data.longitude.value}}
                         gestureHandling={'greedy'}
                         disableDefaultUI={true}
                         style={{ borderRadius: '0.2em' }}
                       >
-                        <Marker position={{lat: 22.54992, lng: 0}} />
+                        <Marker position={{lat: props.data.latitude.value, lng: props.data.longitude.value}} />
                       </Map>
                     </APIProvider>
                   </Metric>
@@ -184,26 +190,26 @@ const MainData = (props) => {
                   <Metric>{props.data.breath_voc_equivalent.value + " " + props.data.breath_voc_equivalent.unit}</Metric>
               </Card>
               <Card>
-                  <Text>IAQ Accuracy</Text>
-                  <Metric>{props.data.iaq_accuracy.value}</Metric>
+                  <Text>Altitude</Text>
+                  <Metric>{props.data.altitude.value + "m"}</Metric>
               </Card>
               <Col numColSpan={1} numColSpanLg={3}>
               <Card className="w-full">
                 <div className='flex flex-row items-center justify-around'>
                   <div className='flex flex-row items-center gap-4'> {/* Adjust the gap value based on your preference */}
-                    <Button classNamesize="xs" onClick={() => (generateFeedback("plant"))}>
+                    <Button classNamesize="xs" onClick={() => (generateFeedback("Plant"))}>
                       <h1 className='text-white flex items-center gap-2'><PiPlantFill size={20}/> Plant Impact</h1>
                     </Button>
-                    <Button classNamesize="xs">
+                    <Button classNamesize="xs" onClick={() => (generateFeedback("Animal"))}>
                       <h1 className='text-white flex items-center gap-2'><FaDog size={20}/> Animal Impact</h1>
                     </Button>
-                    <Button classNamesize="xs">
+                    <Button classNamesize="xs" onClick={() => (generateFeedback("Sleep"))}>
                       <h1 className='text-white flex items-center gap-2'><CgSleep size={20}/> Sleep Impact</h1>
                     </Button>
-                    <Button classNamesize="xs">
+                    <Button classNamesize="xs" onClick={() => (generateFeedback("Exercise"))}>
                       <h1 className='text-white flex items-center gap-2'><FaRunning size={20}/> Exercise Impact</h1>
                     </Button>
-                    <Button classNamesize="xs">
+                    <Button classNamesize="xs" onClick={() => (generateFeedback("Breathing"))}>
                       <h1 className='text-white flex items-center gap-2'><MdAir size={20}/> Breathing Impact</h1>
                     </Button>
                   </div>

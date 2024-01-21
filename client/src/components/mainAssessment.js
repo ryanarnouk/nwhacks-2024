@@ -15,13 +15,7 @@ const MainAssessment = (props) => {
 
                 <div className='flex flex-col gap-4 m-2 justify-left'>
                     <h1 className="text-3xl font-bold dark:text-dark-tremor-content-emphasis">Feedback</h1>
-                    <ul className="list-disc pl-4">
-                        <li className="text-lg dark:text-dark-tremor-content-emphasis">Point 1</li>
-                        <li className="text-lg dark:text-dark-tremor-content-emphasis">Point 2</li>
-                        <li className="text-lg dark:text-dark-tremor-content-emphasis">Point 3</li>
-                        <li className="text-lg dark:text-dark-tremor-content-emphasis">Point 4</li>
-                        <li className="text-lg dark:text-dark-tremor-content-emphasis">Point 5</li>
-                    </ul>
+                    <p className="text-sm dark:text-dark-tremor-content-emphasis">{props.feedback}</p>
                 </div>
             </Card>
         </div>

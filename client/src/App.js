@@ -16,7 +16,12 @@ const App = () => {
     iaq_accuracy:{value: 0, unit: 'PPM'},
     co2_equivalent:{value: 0, unit: 'PPM'},
     breath_voc_equivalent:{value: 0, unit: 'PPM'},
+    latitude:{value: 0, unit: '°'},
+    longitude:{value: 0, unit: '°'},
+    altitude:{value: 0, unit: 'm'}
   });
+
+  const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
     const socket = io('http://127.0.0.1:105');
@@ -68,12 +73,12 @@ const App = () => {
         
         {/* Main Data Dashboard (Left-side)*/}
         <div className='w-[75%]'>
-          <MainData data={data}/>
+          <MainData data={data} setFeedback={setFeedback}/>
         </div>
 
         {/* Main Assessment Dashboard (Right-side)*/}
         <div className='w-[25%]'>
-          <MainAssessment data={data}/>
+          <MainAssessment data={data} feedback={feedback}/>
         </div>
       </div>      
     </div>
