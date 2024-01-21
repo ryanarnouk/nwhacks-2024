@@ -79,7 +79,7 @@ const MainData = (props) => {
                       <div className='flex items-center '>
                         <div>
                           <select
-                            className="bg-gray-800 text-white rounded-md px-2 py-1"
+                            className="dark:bg-gray-800 dark:text-white bg-gray-200 rounded-md px-2 py-1"
                             value={graphVar}
                             onChange={(e) => setGraphVar(e.target.value)}
                           >
