@@ -2,6 +2,8 @@
 
 This is our project for nw hacks 2024 taking place at the University of British Columbia
 
+View the video demo link [here on YouTube](https://youtu.be/YEevDblyLsI?feature=shared)
+
 # About
 
 ## Inspiration
