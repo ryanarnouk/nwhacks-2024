@@ -12,15 +12,15 @@ function App() {
       <Navbar/>
 
       {/* Data/Dashboard Container */}
-      <div className='flex flex-row min-h-full'>
+      <div className='flex flex-row'>
         
         {/* Main Data Dashboard (Left-side)*/}
-        <div className='w-[75%] border-dashed border-2 border-sky-500'>
+        <div className='w-[75%] border-dashed'>
           <MainData/>
         </div>
 
         {/* Main Assessment Dashboard (Right-side)*/}
-        <div className='w-[25%] border-dashed border-2 border-sky-500'>
+        <div className='w-[25%] border-dashed'>
           <MainAssessment/>
         </div>
       </div>      
