@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Grid, Col, Card, Text, Metric, LineChart, Button } from "@tremor/react";
 import {APIProvider, Map, Marker} from '@vis.gl/react-google-maps';
 import { Tooltip } from 'react-tooltip';
@@ -10,9 +10,7 @@ import { MdAir } from "react-icons/md";
 import BufferStream from '../helpers/BufferStream';
 
 const MainData = (props) => {
-  const [graphVar, setGraphVar] = useState("Temperature");
-  const [generatingFeedback, setGeneratingFeedback] = useState(false);
-
+  const maxSize = 100;
   const graphLegend = {
     "Temperature": "Temperature (°C)",
     "CO2": "Carbon Dioxide in Air (PPM)",
@@ -20,18 +18,34 @@ const MainData = (props) => {
     "IAQ": "Indoor Air Quality (PPM)",
   }
 
-  const maxSize = 10;
-  const bufferStream = new BufferStream(maxSize);
-  let times = ["12:00", "12:05", "12:10", "12:15", "12:20", "12:25", "12:30", "12:35", "12:45", "12:50"]
-  for (let i = 0; i < 100; i++) {
-    bufferStream.add(
-      {
-        time: times[i % 10],
-        "temperature": i,
-      });
-  }
+  const [graphVar, setGraphVar] = useState("Temperature");
+  const [generatingFeedback, setGeneratingFeedback] = useState(false);
+  const [forceUpdate, setForceUpdate] = useState(false); // Used to force a re-render of the component
+  const [bufferStream, setBufferStream] = useState(new BufferStream(maxSize));
 
-  const testData = bufferStream.getBuffer();
+  // let times = ["12:00", "12:05", "12:10", "12:15", "12:20", "12:25", "12:30", "12:35", "12:45", "12:50"]
+  // for (let i = 0; i < 100; i++) {
+  //   bufferStream.add(
+  //     {
+  //       time: times[i % 10],
+  //       "temperature": i,
+  //     });
+  // }
+
+  // const testData = bufferStream.getBuffer();
+
+  useEffect(() => {
+    if (props.data.temperature && props.data.temperature.value) {
+      console.log("HEREE", new Date().toLocaleTimeString())
+      bufferStream.add({
+        time: new Date().toLocaleTimeString().split,
+        "temperature": props.data.temperature.value,
+      });
+
+      setForceUpdate(!forceUpdate);
+    }
+  }, [props.data]);
+  
 
   
   // Make a POST request to the API to generate GPT feedback
@@ -95,10 +109,10 @@ const MainData = (props) => {
                       {/* <Metric>Graph</Metric> */}
                       <LineChart
                           className="h-72 mt-4"
-                          data={testData}
+                          data={bufferStream.getBuffer()}
                           index="time"
                           categories={["temperature"]}
-                          colors={["neutral", "indigo"]}
+                          colors={["blue"]}
                           yAxisWidth={30}
                           // onValueChange={(v) => setValue(v)}
                           connectNulls={true}
