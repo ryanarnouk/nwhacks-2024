@@ -4,7 +4,7 @@ import {APIProvider, Map, Marker} from '@vis.gl/react-google-maps';
 import { Tooltip } from 'react-tooltip';
 
 
-const MainData = () => {
+const MainData = (props) => {
   const [graphVar, setGraphVar] = useState("Temperature");
 
   const testData = [
@@ -124,16 +124,16 @@ const MainData = () => {
               <Col>
                   <Card>
                   <Text>Temperature</Text>
-                  <Metric>{/*DATA FEEDS FROM HERE*/} 25</Metric>
+                  <Metric>{props.data.temperature.value + " " + props.data.temperature.unit}</Metric>
                   </Card>
               </Col>
               <Card>
                   <Text>CO2</Text>
-                  <Metric>4.3</Metric>
+                  <Metric>{props.data.co2_equivalent.value + " " + props.data.co2_equivalent.unit}</Metric>
               </Card>
               <Card>
                   <Text>Humidity</Text>
-                  <Metric>1.2</Metric>
+                  <Metric>{props.data.humidity.value + props.data.humidity.unit}</Metric>
               </Card>
           </Grid>
           <Tooltip id="help-tooltip" />
