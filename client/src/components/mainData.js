@@ -135,6 +135,41 @@ const MainData = (props) => {
                   <Text>Humidity</Text>
                   <Metric>{props.data.humidity.value + props.data.humidity.unit}</Metric>
               </Card>
+              <Col>
+                  <Card>
+                  <Text>Air Pressure</Text>
+                  <Metric>{props.data.pressure.value + " " + props.data.pressure.unit}</Metric>
+                  </Card>
+              </Col>
+              <Card>
+                  <Text>VOC</Text>
+                  <Metric>{props.data.breath_voc_equivalent.value + " " + props.data.breath_voc_equivalent.unit}</Metric>
+              </Card>
+              <Card>
+                  <Text>IAQ Accuracy</Text>
+                  <Metric>{props.data.iaq_accuracy.value}</Metric>
+              </Card>
+              <Col numColSpan={1} numColSpanLg={3}>
+                <Card className="w-full">
+                  <div className=''>
+                    <div className='flex flex-row items-center justify-between'>
+                      <h1 className='text-lg font-bold dark:text-dark-tremor-content-emphasis'>
+                        Context
+                      </h1>
+                      <div className='flex flex-row'>
+                      <Button data-tooltip-id="help-tooltip" data-tooltip-content="Hello world!" 
+                            classNamesize="xs" style={{ borderRadius: '2em' }}><h1 className='text-white'>?</h1></Button>
+                            <Button data-tooltip-id="help-tooltip" data-tooltip-content="Hello world!" 
+                            classNamesize="xs" style={{ borderRadius: '2em' }}><h1 className='text-white'>?</h1></Button>
+                            <Button data-tooltip-id="help-tooltip" data-tooltip-content="Hello world!" 
+                            classNamesize="xs" style={{ borderRadius: '2em' }}><h1 className='text-white'>?</h1></Button>
+
+                      </div>
+                      <Button classNamesize="xs"><h1 className='text-white'>Submit</h1></Button>
+                    </div>
+                  </div>
+                </Card>
+              </Col>
           </Grid>
           <Tooltip id="help-tooltip" />
       </div>

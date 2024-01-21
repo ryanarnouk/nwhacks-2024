@@ -3,8 +3,8 @@ import { Card, Flex, Text, ProgressCircle } from "@tremor/react";
 
 const MainAssessment = (props) => {
   return (
-    <div className='m-3 h-full'>
-        <div className="space-y-3 h-full">
+    <div className='p-3 h-full'>
+        <div className="h-full">
             <Card className="max-w-sm mx-auto flex flex-col gap-4 h-full">
                 <Text className='text-xl text-center light:text-white font-bold'>Air Quality Score</Text>
                 <div className="space-x-5 items-center">

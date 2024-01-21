@@ -67,12 +67,12 @@ const App = () => {
       <div className='flex flex-row'>
         
         {/* Main Data Dashboard (Left-side)*/}
-        <div className='w-[75%] border-dashed'>
+        <div className='w-[75%]'>
           <MainData data={data}/>
         </div>
 
         {/* Main Assessment Dashboard (Right-side)*/}
-        <div className='w-[25%] border-dashed'>
+        <div className='w-[25%]'>
           <MainAssessment data={data}/>
         </div>
       </div>      
