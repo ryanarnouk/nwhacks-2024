@@ -13,7 +13,7 @@ String output;
 void setup(void)
 {
   /* Initializes the Serial communication */
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.setTimeout(1);
   //delay(1000);
   pinMode(LED_BUILTIN, OUTPUT);

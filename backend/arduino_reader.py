@@ -7,7 +7,7 @@ import os
 
 load_dotenv()  # take environment variables from .env.
 
-ser = serial.Serial(os.environ.get('ARDUINO_PORT'), 9600, timeout=0.1)
+ser = serial.Serial(os.environ.get('ARDUINO_PORT'), 115200, timeout=0.1)
 
 def retrieve_from_arduino(): 
     time.sleep(0.05)
