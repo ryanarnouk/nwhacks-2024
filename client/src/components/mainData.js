@@ -9,7 +9,10 @@ import {APIProvider, Map, Marker} from '@vis.gl/react-google-maps';
 // const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/style.json';
 // console.log(process.env.GOOGLE_MAPS_API_KEY);
 
-const MainData = () => {
+const MainData = (props) => {
+
+  console.log(props)
+
     const testData = [
         {
           date: "Jan 23",
@@ -111,16 +114,16 @@ const MainData = () => {
                 <Col>
                     <Card>
                     <Text>Temperature</Text>
-                    <Metric>{/*DATA FEEDS FROM HERE*/}</Metric>
+                    <Metric>{props.data.temperature.value + " " + props.data.temperature.unit}</Metric>
                     </Card>
                 </Col>
                 <Card>
                     <Text>CO2</Text>
-                    <Metric>4.3</Metric>
+                    <Metric>{props.data.co2_equivalent.value + " " + props.data.co2_equivalent.unit}</Metric>
                 </Card>
                 <Card>
                     <Text>Humidity</Text>
-                    <Metric>1.2</Metric>
+                    <Metric>{props.data.humidity.value + props.data.humidity.unit}</Metric>
                 </Card>
             </Grid>
         </div>
