@@ -7,7 +7,7 @@ import { FaDog, FaRunning } from "react-icons/fa";
 import { PiPlantFill } from "react-icons/pi";
 import { CgSleep } from "react-icons/cg";
 import { MdAir } from "react-icons/md";
-
+import BufferStream from '../helpers/BufferStream';
 
 const MainData = (props) => {
   const [graphVar, setGraphVar] = useState("Temperature");
@@ -20,69 +20,20 @@ const MainData = (props) => {
     "IAQ": "Indoor Air Quality (PPM)",
   }
 
-  const testData = [
+  const maxSize = 10;
+  const bufferStream = new BufferStream(maxSize);
+  let times = ["12:00", "12:05", "12:10", "12:15", "12:20", "12:25", "12:30", "12:35", "12:45", "12:50"]
+  for (let i = 0; i < 100; i++) {
+    bufferStream.add(
       {
-        date: "Jan 23",
-        "2022": 45,
-        "2023": 78,
-      },
-      {
-        date: "Feb 23",
-        "2022": 52,
-        "2023": 71,
-      },
-      {
-        date: "Mar 23",
-        "2022": 48,
-        "2023": 80,
-      },
-      {
-        date: "Apr 23",
-        "2022": 61,
-        "2023": 65,
-      },
-      {
-        date: "May 23",
-        "2022": 55,
-        "2023": 58,
-      },
-      {
-        date: "Jun 23",
-        "2022": 67,
-        "2023": 62,
-      },
-      {
-        date: "Jul 23",
-        "2022": 60,
-        "2023": 54,
-      },
-      {
-        date: "Aug 23",
-        "2022": 72,
-        "2023": 49,
-      },
-      {
-        date: "Sep 23",
-        "2022": 65,
-        "2023": 52,
-      },
-      {
-        date: "Oct 23",
-        "2022": 68,
-        "2023": null,
-      },
-      {
-        date: "Nov 23",
-        "2022": 74,
-        "2023": null,
-      },
-      {
-        date: "Dec 23",
-        "2022": 71,
-        "2023": null,
-      },
-  ];
+        time: times[i % 10],
+        "temperature": i,
+      });
+  }
 
+  const testData = bufferStream.getBuffer();
+
+  
   // Make a POST request to the API to generate GPT feedback
   const generateFeedback = async (impactType) => {
     try {
@@ -145,8 +96,8 @@ const MainData = (props) => {
                       <LineChart
                           className="h-72 mt-4"
                           data={testData}
-                          index="date"
-                          categories={["2022", "2023"]}
+                          index="time"
+                          categories={["temperature"]}
                           colors={["neutral", "indigo"]}
                           yAxisWidth={30}
                           // onValueChange={(v) => setValue(v)}
