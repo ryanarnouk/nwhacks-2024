@@ -1,4 +1,8 @@
 #include "bsec.h"
+#include <Wire.h> //Needed for I2C to GNSS
+#include <SparkFun_u-blox_GNSS_v3.h> //http://librarymanager/All#SparkFun_u-blox_GNSS_v3
+
+SFE_UBLOX_GNSS myGNSS; // SFE_UBLOX_GNSS uses I2C.
 
 // Helper functions declarations
 void checkIaqSensorStatus(void);
@@ -46,6 +50,17 @@ void setup(void)
   // Print the header
   output = "Timestamp [ms], IAQ, IAQ accuracy, Static IAQ, CO2 equivalent, breath VOC equivalent, raw temp[°C], pressure [hPa], raw relative humidity [%], gas [Ohm], Stab Status, run in status, comp temp[°C], comp humidity [%], gas percentage";
   Serial.println(output);
+
+  Wire.begin(); // Start I2C
+
+  while (myGNSS.begin() == false) //Connect to the u-blox module using Wire port
+  {
+    Serial.println(F("u-blox GNSS not detected at default I2C address. Retrying..."));
+    delay (1000);
+  }
+
+  myGNSS.setI2COutput(COM_TYPE_UBX); //Set the I2C port to output UBX only (turn off NMEA noise)
+
 }
 
 // Function that is looped forever
@@ -98,13 +113,31 @@ void loop(void)
     Serial.print(iaqSensor.breathVocEquivalent);
     Serial.println(" PPM");
 
-Serial.println();
+    Serial.println();
 
 
     digitalWrite(LED_BUILTIN, HIGH);
   } else {
     checkIaqSensorStatus();
   }
+
+  if (myGNSS.getPVT() == true)
+  {
+
+    int32_t latitude = myGNSS.getLatitude();
+    Serial.print(F("Latitude: "));
+    Serial.println(latitude);
+
+    int32_t longitude = myGNSS.getLongitude();
+    Serial.print(F("Longitude: "));
+    Serial.println(longitude);
+
+    int32_t altitude = myGNSS.getAltitude();
+    Serial.print(F("Altitude: "));
+    Serial.println(altitude);
+
+  }
+
 }
 
 // Helper function definitions
