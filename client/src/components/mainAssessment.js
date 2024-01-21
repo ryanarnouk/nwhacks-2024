@@ -14,7 +14,7 @@ const MainAssessment = (props) => {
                 </div>
 
                 <div className='flex flex-col gap-4 m-2 justify-left'>
-                    <h1 className="text-3xl font-bold dark:text-dark-tremor-content-emphasis">GPT Feedback</h1>
+                    <h1 className="text-3xl font-bold dark:text-dark-tremor-content-emphasis">Feedback</h1>
                     <ul className="list-disc pl-4">
                         <li className="text-lg dark:text-dark-tremor-content-emphasis">Point 1</li>
                         <li className="text-lg dark:text-dark-tremor-content-emphasis">Point 2</li>

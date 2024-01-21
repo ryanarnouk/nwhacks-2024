@@ -89,7 +89,7 @@ const MainData = (props) => {
                             <option value="IAQ">IAQ</option>
                           </select>
                         </div>
-                        <h1 className='w-full text-center font-bold text-white font-xl'>{graphVar}</h1>
+                        <h1 className='w-full text-center font-bold dark:text-dark-tremor-content-emphasis font-xl'>{graphVar}</h1>
                         <Button data-tooltip-id="help-tooltip" data-tooltip-content="Hello world!" 
                             classNamesize="xs" style={{ borderRadius: '2em' }}><h1 className='text-white'>?</h1></Button>
                       </div>
